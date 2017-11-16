@@ -43,11 +43,9 @@ def makeline(dataSet,w):
     p2 = ax.scatter(dataSet[idx_2,0], dataSet[idx_2,1], 
         marker='x', color='r', label=2, s=20)
     print(w.shape)
-    a = w[0][0] 
-    b = w[0][1] 
-    ys = (-12 * (-w[0][0]) / w[0][1], 12 * (-w[0][0]) / w[0][1])
     x = dataSet[:,0]
-    predict = a*x + b;
-    ax.add_line(Line2D(dataSet[:,0], predict, linewidth=1, color='blue'))
+    ys = (-12 * (-w[0][0]) / w[0][1], 12 * (-w[0][0]) / w[0][1])
+    predict = w[0][0]*x+w[0][1];
+    ax.add_line(Line2D(x, predict, linewidth=1, color='blue'))
     plt.legend(loc = 'upper right')
     plt.show()

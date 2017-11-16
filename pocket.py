@@ -11,7 +11,7 @@ from numpy import *
 import random
 
 def Is_correct(W, x, y):  
-    if (sum(W*x)*y > 0):  
+    if (sum(W*x.T)*y > 0):  
         return True  
     else:  
         return False  
@@ -45,4 +45,4 @@ def Pocket_Algo(X, Y, eta, itertime):
                 W = w  
                 ErrNum_p = ErrNum
     print(ErrNum_p)
-    return W
+    return w
