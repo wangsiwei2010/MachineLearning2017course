@@ -11,6 +11,7 @@ from sklearn import svm, datasets
 from matplotlib.lines import Line2D
 from numpy import *
 import plot
+from cvxopt import solvers,matrix
 
 
 
@@ -26,24 +27,38 @@ plot.plotData(iris_train)
 ##pla.train(iris_train)
 ##train(iris_train)
 
-def train(dataSet, plot = True):
+def svm(pts, labels):
+    """
+    Support Vector Machine using CVXOPT in Python. This example is
+    mean to illustrate how SVMs work.
+    """
+    n = len(pts[0])
 
-    '''
+    # x is a column vector [w b]^T
 
-    Use dataSet to train a perceptron
+    # set up P
+    P = matrix(0.0, (n+1,n+1))
+    for i in range(n):
+        P[i,i] = 1.0
 
-    '''
+    # q^t x
+    # set up q
+    q = matrix(0.0,(n+1,1))
+    q[-1] = 1.0
 
+    m = len(pts)
+    # set up h
+    h = matrix(-1.0,(m,1))
 
+    # set up G
+    G = matrix(0.0, (m,n+1))
+    for i in range(m):
+        G[i,:n] = -labels[i] * pts[i]
+        G[i,n] = -labels[i]
 
-    numLines = dataSet.shape[0]
-    numFeatures = dataSet.shape[1]
-    w = zeros((1, numFeatures - 1))         # initialize weights
-   
-            
-    clf = svm.SVC(kernel='linear') 
+    x = solvers.qp(P,q,G,h)['x']
 
-    return w
+    return P, q, h, G, x
    
 
 def plotData(dataSet):
