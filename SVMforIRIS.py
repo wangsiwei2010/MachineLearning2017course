@@ -17,7 +17,7 @@ import svm
 
 
 iris = datasets.load_iris() 
-X = iris.data[0:100, 0:3]  # 只取前两维特征，二维作图
+X = iris.data[0:100, 0:2]  
 y = iris.target[0:100]
 y[y == 0] = -1;
 iris_train = np.column_stack((X,y))
@@ -25,7 +25,7 @@ w = svm.svm(X,y)
 print (X)
 print (y)
 print (w)
-##plot.plotData(iris_train)
+plot.plotData(iris_train)
 ##pla.train(iris_train)
 ##train(iris_train)
 
