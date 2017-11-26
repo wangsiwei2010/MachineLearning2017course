@@ -29,7 +29,7 @@ def makeLinearSeparableData(weights, numLines):
 
     return dataSet
 
-def plotData(dataSet):
+def plotData(dataSet,w):
     ''' (array) -> figure
 
     Plot a figure of dataSet
@@ -45,8 +45,15 @@ def plotData(dataSet):
     p1 = ax.scatter(dataSet[idx_1,0], dataSet[idx_1,1], marker='o', color='g', label=1, s=20)
     idx_2 = where(dataSet[:,2]==-1)
     p2 = ax.scatter(dataSet[idx_2,0], dataSet[idx_2,1], marker='x', color='r', label=2, s=20)
+    x = w[0][0] / abs(w[0][0]) * 10
+    y = w[0][1] / abs(w[0][0]) * 10
+    ann = ax.annotate(u"",xy=(x,y), 
+    xytext=(0,0),size=20, arrowprops=dict(arrowstyle="-|>"))
+    ys = (-12 * (-w[0][0]) / w[0][1], 12 * (-w[0][0]) / w[0][1])
+    ax.add_line(Line2D((-12, 12), ys, linewidth=1, color='blue'))
     plt.legend(loc = 'upper right')
     plt.show()
+    
     
 def train(dataSet, plot = False):
 
@@ -65,6 +72,7 @@ def train(dataSet, plot = False):
     while not separated and i < numLines:
         if dataSet[i][-1] * sum(w * dataSet[i,0:-1]) <= 0:
             w = w + dataSet[i][-1] * dataSet[i,0:-1]
+            plotData(dataSet,w)
             separated = False
             i = 0;
         else:
